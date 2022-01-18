@@ -1,0 +1,17 @@
+{
+    "name": "Admin Kerah Kujang",
+    "short_name": "Admin Kerah",
+    "description": "Panel Admin Kerah Pupuk Kujang",
+    "start_url": "index.php",
+    "display": "standalone",
+    "background_color": "#00897b",
+    "theme_color": "#00897b",
+    "gcm_sender_id": "352962945029",
+    "icons": [
+        {
+            "src": "images/512-icon.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
