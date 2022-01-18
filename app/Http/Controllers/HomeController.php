@@ -25,7 +25,7 @@ class HomeController extends Controller
                         'icon_subsubmenu'   => '',
                         'route'             => 'dashboard',
                         'permission'        => 'dashboard',
-                        'icon-primary'      => '',
+                        'icon_primary'      => 'icon-home',
                         'no'                => 1
                       ];
         // $this->middleware("permission:".$this->data['permission']."-list", ['only' => ['index']]);

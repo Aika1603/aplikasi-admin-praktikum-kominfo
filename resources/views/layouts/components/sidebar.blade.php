@@ -8,7 +8,6 @@
     </a>
 </li>
 
-
 <li class="nav-item-header"><div class="text-uppercase font-size-xs line-height-xs">Features</div> <i class="icon-menu" title="Main"></i></li>
 <li class="nav-item nav-item-submenu {{ @$menu == 'Menu Level 1' ? 'nav-item-expanded nav-item-open' : '' }}">
     <a href="#" class="nav-link">
@@ -62,5 +61,17 @@
         <li class="nav-item"><a href="{{ route('roles.index') }}" class="nav-link {{ @$submenu == 'Roles List' ? 'active' : '' }}">Roles List</a></li>
         <li class="nav-item"><a href="{{ route('permissions.index') }}" class="nav-link {{ @$submenu == 'Permissions' ? 'active' : '' }}">Permissions</a></li>
     </ul>
+</li>
+<li class="nav-item">
+    <a href="{{ route('menus.index') }}" class="nav-link  {{ @$menu == 'Menus' ? 'active' : '' }} ">
+        <i class="icon-grid4"></i>
+        <span>Menus</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a href="{{ route('actions.index') }}" class="nav-link  {{ @$menu == 'Action' ? 'active' : '' }} ">
+        <i class="icon-select2"></i>
+        <span>Actions</span>
+    </a>
 </li>
 

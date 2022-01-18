@@ -36,7 +36,7 @@ class UsersController extends Controller
                         'subsubmenu'        => '',
                         'icon_subsubmenu'   => '',
                         'route'             => 'users',
-                        'permission'        => 'user',
+                        'permission'        => 'users',
                         'icon-primary'      => '',
                         'no'                => 1
                       ];
@@ -54,6 +54,7 @@ class UsersController extends Controller
     public function index(Request $request)
     {
         $this->data['datatable']  = User::get();
+        $this->data['roles'] = Role::pluck('name','name')->all();
         return view($this->data['route'].'.index', $this->data);
     }
 
@@ -80,9 +81,9 @@ class UsersController extends Controller
     {
         $this->validate($request, [
             'name'         => 'required',
+            'username'     => 'required|unique:users,username',
             'email'        => 'required|email|unique:users,email',
             'roles'        => 'required',
-            'username'     => 'required|username|unique:users,username',
             'avatar'       => 'nullable|sometimes|image|mimes:jpeg,png|max:1024',
         ]);
 
@@ -94,7 +95,7 @@ class UsersController extends Controller
         // upload avatar
         $input['avatar'] = 'avatar.png';
         if($request->hasFile('avatar')){
-            $input['avatar'] = $this->_uploadAvatar($request, $data);
+            $input['avatar'] = $this->_uploadAvatar($request, $input['username']);
         }
 
         $query = User::create($input);
@@ -143,23 +144,45 @@ class UsersController extends Controller
     public function update(Request $request, $id = null)
     {
         $this->validate($request, [
-            'name' => 'required',
-            'menu_id' => 'required'
+            'name'         => 'required|max:191',
+            'phone_number' => 'required|max:20',
+            'username'     => 'required|unique:users,username,'.$id,
+            'email'        => 'required|email|unique:users,email,'.$id,
+            'roles'        => 'required',
+            'avatar'       => 'nullable|sometimes|image|mimes:jpeg,png|max:1024',
         ]);
 
-        $menu = Menus::find($request->input('menu_id'));
-
-        $query = Permission::find($id);
-        if($query->name != $request->input('name')){
-            $this->validate($request, [
-                'name' => 'required|unique:permissions,name',
-            ]);
+        if($id == null){
+            return response()->json([
+                    'status' => false,
+                    '_token' => csrf_token(),
+                    'message' => 'Update user fail. Data not found!',
+                    'return_url' => url('users')
+                ]);
         }
-        $query->name = $request->input('name');
-        $query->menu_id = $request->input('menu_id');
-        $query->menu_name  = $menu->name;
-        $query->save();
 
+        $data  = User::where('id', $id)->first();
+        $data->name      = $request->input('name');
+        $data->username  = $request->input('username');
+        $data->email     = $request->input('email');
+        $data->phone_number = $request->input('phone_number');
+        $data->is_suspend = empty($request->input('is_suspend')) ? '0' : '1';
+
+        // reset password
+        if(!empty($request->input('is_reset'))){
+            $data->password = Hash::make(config('app.default_pass', '123123123'));
+		}
+
+        // upload avatar
+        if($request->hasFile('avatar')){
+            $data->avatar = $this->_uploadAvatar($request, $data->username);
+        }
+
+        // upadate role
+        DB::table('model_has_roles')->where('model_id',$id)->delete();
+        $data->assignRole($request->input('roles'));
+
+        $query = $data->save();
         if($query){
             return response()->json([
                     'status' => true,
@@ -185,7 +208,7 @@ class UsersController extends Controller
      */
     public function destroy($id = null)
     {
-        $query = DB::table("permissions")->where('id',$id)->delete();
+        $query = User::where('id',$id)->delete();
          if($query){
             return response()->json([
                     'status' => true,
@@ -203,13 +226,12 @@ class UsersController extends Controller
         }
     }
 
-    private function _uploadAvatar(Request $request, $data = null)
+    private function _uploadAvatar(Request $request, $username = null)
     {
-        if($data == null){
+        if($username == null){
             return 'avatar.png';
         }
-        $name = str_replace(' ', '-', $data->username);
-        $imageName = $data->id . "_" . $name . Str::random(10);
+        $imageName = str_replace(' ', '-', $username) . Str::random(10);
 
         $original_filename = $request->file('avatar')->getClientOriginalName();
         $original_filename_arr = explode('.', $original_filename);

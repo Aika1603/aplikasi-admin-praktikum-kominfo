@@ -31,7 +31,7 @@ class NotificationController extends Controller
                         'icon_subsubmenu'   => '',
                         'route'             => 'notification',
                         'permission'        => 'notification',
-                        'icon-primary'      => '',
+                        'icon_primary'      => 'icon-bell2',
                         'no'                => 1
                       ];
         // $this->middleware("permission:".$this->data['permission']."-list", ['only' => ['index']]);

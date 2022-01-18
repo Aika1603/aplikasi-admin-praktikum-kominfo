@@ -3,20 +3,31 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="form-group row">
-                <label class="font-weight-semibold col-md-2 col-form-label">Nama Permission  <span class="text-danger">*</span></label>
-                <div class="col-md-10">
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter name (e.g. route-list, route-create, route-edit, or route-delete)" value="{{ @$data_row->name }}" required >
-                </div>
-            </div>
-            <div class="form-group row">
                 <label class="font-weight-semibold col-md-2 col-form-label">Menu  <span class="text-danger">*</span></label>
                 <div class="col-md-10 pb-2">
-                    <select type="text" class="form-control select-search-menu" id="menu_id" name="menu_id" placeholder="Enter" required >
+                    <select type="text" class="form-control select-search-menu" id="menu_id" name="menu_id" placeholder="Enter" onchange="handleMenuChange(this)"  required >
                         <option value="">Choose One</option>
                         @foreach($menus as $menu)
                             <option value="{{ $menu->id }}" {{ $menu->id == @$data_row->menu_id ? 'selected' : ''}} >{{ $menu->name }}</option>
                         @endforeach
                     </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="font-weight-semibold col-md-2 col-form-label">Action  <span class="text-danger">*</span></label>
+                <div class="col-md-10 pb-2">
+                    <select type="text" class="form-control select-search-action" id="action_id" name="action_id" placeholder="Enter" onchange="handleActionChange(this)" required >
+                        <option value="">Choose One</option>
+                        @foreach($actions as $action)
+                            <option value="{{ $action->id }}" {{ $action->id == @$data_row->action_id ? 'selected' : ''}} >{{ $action->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="font-weight-semibold col-md-2 col-form-label">Name Permission  <span class="text-danger">*</span></label>
+                <div class="col-md-10">
+                    <input type="text" class="form-control" id="name" name="name" value="{{ @$data_row->name }}" readonly >
                 </div>
             </div>
 
@@ -38,9 +49,38 @@
             placeholder: "Choose One",
             language: {
                 noResults: function () {
-                    return `<a href="{{ route('dashboard') }}"><i class='icon-plus2'></i> Tambah menu baru</a>`;
+                    return `<a href="{{ route('menus.create') }}"><i class='icon-plus2'></i> Tambah menu baru</a>`;
+                }
+            }
+        });
+
+        var $select = $('.select-search-action').select2({
+            allowClear: true,
+            escapeMarkup: function (markup) { return markup; },
+            placeholder: "Choose One",
+            language: {
+                noResults: function () {
+                    return `<a href="{{ route('actions.create') }}"><i class='icon-plus2'></i> Tambah action baru</a>`;
                 }
             }
         });
     })
+
+    const handleMenuChange = (param) => {
+        if($('#action_id').val() == ''){
+            return false;
+        }
+        let menu = $(param).find(":selected").text().toLowerCase();
+        let action = $('#action_id').find(":selected").text().toLowerCase();
+        $('#name').val(menu+'-'+action)
+    }
+
+    const handleActionChange = (param) => {
+        if($('#menu_id').val() == ''){
+            return false;
+        }
+        let action = $(param).find(":selected").text().toLowerCase();
+        let menu = $('#menu_id').find(":selected").text().toLowerCase();
+        $('#name').val(menu+'-'+action)
+    }
 </script>

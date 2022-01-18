@@ -18,7 +18,6 @@
             <div class="form-group row">
                 <label class="font-weight-semibold col-md-12 custom-checkbox-parent" style="margin-bottom:0px;">
                     Role Permissions  <span class="text-danger">*</span> 
-                    <br><span class="text-muted font-weight-normal">Geser tanda menjadi warna hijau untuk memberikan akses </span>
                     <div class="custom-control custom-checkbox font-weight-normal">
                         <input type="checkbox" class="custom-control-input" value="0" id="is_all_check" name="is_all_check" >
                         <label class="custom-control-label" for="is_all_check"> Beri tanda check pada semua permissions</label>

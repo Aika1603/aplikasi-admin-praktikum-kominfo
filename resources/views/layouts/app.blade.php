@@ -33,7 +33,16 @@
 	<script src="{{ asset('global_assets/js/plugins/loaders/blockui.min.js') }}"></script>
 	<!-- /core JS files -->
 
-	<!-- Theme JS files -->
+    <!-- datatable -->
+	<script src="{{ asset('global_assets/js/plugins/tables/datatables/datatables.min.js') }}"></script>
+	<script src="{{ asset('global_assets/js/plugins/tables/datatables/extensions/jszip/jszip.min.js') }}"></script>
+	<script src="{{ asset('global_assets/js/plugins/tables/datatables/extensions/pdfmake/pdfmake.min.js') }}"></script>
+	<script src="{{ asset('global_assets/js/plugins/tables/datatables/extensions/select.min.js') }}"></script>
+	<script src="{{ asset('global_assets/js/plugins/tables/datatables/extensions/pdfmake/vfs_fonts.min.js') }}"></script>
+	<script src="{{ asset('global_assets/js/plugins/tables/datatables/extensions/buttons.min.js') }}"></script>
+    <!-- datatable -->
+
+    <!-- Theme JS files -->
 	<script src="{{ asset('global_assets/js/plugins/forms/styling/uniform.min.js') }}"></script>
 	<script src="{{ asset('global_assets/js/plugins/notifications/sweet_alert.min.js') }}"></script>
     <script src="{{ asset('global_assets/js/plugins/notifications/noty.min.js') }}"></script>
@@ -41,7 +50,6 @@
 	<script src="{{ asset('global_assets/js/plugins/ui/moment/moment.min.js') }}"></script>
 	<script src="{{ asset('global_assets/js/plugins/forms/selects/select2.min.js') }}"></script>
 	<script src="{{ asset('global_assets/js/plugins/forms/styling/switch.min.js') }}"></script>
-	<script src="{{ asset('global_assets/js/plugins/tables/datatables/datatables.min.js') }}"></script>
     <script src="{{ asset('global_assets/js/plugins/uploaders/fileinput/plugins/purify.min.js') }}"></script>
     <script src="{{ asset('global_assets/js/plugins/uploaders/fileinput/plugins/sortable.min.js') }}"></script>
     <script src="{{ asset('global_assets/js/plugins/uploaders/fileinput/fileinput.min.js') }}"></script>
@@ -128,7 +136,31 @@
                 lengthMenu : [[10, 25, 50, -1], [10, 25, 50, "All"]]
             });
 
-            const table = $('.datatable-button-html5-columns').DataTable();
+            const table = $('.datatable-button-html5-columns').DataTable({
+                buttons: {
+                    buttons: [
+                        {
+                            extend: 'copyHtml5',
+                            className: 'btn btn-light',
+                            exportOptions: {
+                                columns: [ 0, ':visible' ]
+                            }
+                        },
+                        {
+                            extend: 'excelHtml5',
+                            className: 'btn btn-light',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                        {
+                            extend: 'colvis',
+                            text: '<i class="icon-three-bars"></i>',
+                            className: 'btn bg-{{ config('app.theme') }}-400 btn-icon dropdown-toggle'
+                        }
+                    ]
+                }
+            });
 
             table.on('click', '[data-toggle=confirm]', function() {
                 address = $(this).attr('data-address');

@@ -41,6 +41,14 @@ Route::group(['middleware' => ['verified']], function() {
     Route::get('/users/delete/{id?}', 'UsersController@destroy')->name('users.delete');
     Route::post('/users/update/{id?}', 'UsersController@update')->name('users.update_process');
 
+    Route::resource('actions', ActionController::class);
+    Route::get('/actions/delete/{id?}', 'ActionController@destroy')->name('actions.delete');
+    Route::post('/actions/update/{id?}', 'ActionController@update')->name('actions.update_process');
+
+    Route::resource('menus', MenuController::class);
+    Route::get('/menus/delete/{id?}', 'MenuController@destroy')->name('menus.delete');
+    Route::post('/menus/update/{id?}', 'MenuController@update')->name('menus.update_process');
+
     Route::resource('perusahaans', PerusahaanController::class);
     Route::get('/perusahaans/delete/{id?}', 'PerusahaanController@destroy')->name('perusahaans.delete');
     Route::post('/perusahaans/update/{id?}', 'PerusahaanController@update')->name('perusahaans.update_process');

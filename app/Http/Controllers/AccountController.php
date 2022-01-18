@@ -32,7 +32,7 @@ class AccountController extends Controller
                         'icon_subsubmenu'   => '',
                         'route'             => 'account',
                         'permission'        => 'account',
-                        'icon-primary'      => '',
+                        'icon_primary'      => '',
                         'no'                => 1
                       ];
         // $this->middleware("permission:".$this->data['permission']."-list", ['only' => ['index']]);

@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
 use DB;
+use App\Menus;
 
-class RoleController extends Controller
+class MenuController extends Controller
 {
     private $data = [];
 
@@ -18,22 +16,22 @@ class RoleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct()
+    function __construct()
     {
         $this->data = [
-                        'title'             => 'Roles List',
+                        'title'             => 'Menus',
                         'subtitle'          => '',
-                        'menu'              => 'Users Management',
+                        'menu'              => 'Menus',
                         'link_menu'         => '',
-                        'icon_menu'         => 'icon-users',
-                        'submenu'           => 'Roles List',
+                        'icon_menu'         => 'icon-grid4',
+                        'submenu'           => '',
                         'link_submenu'      => '',
                         'icon_submenu'      => '',
                         'subsubmenu'        => '',
                         'icon_subsubmenu'   => '',
-                        'route'             => 'roles',
-                        'permission'        => 'roles',
-                        'icon_primary'      => '',
+                        'route'             => 'menus',
+                        'permission'        => 'menus',
+                        'icon_primary'      => 'icon-grid4',
                         'no'                => 1
                       ];
         $this->middleware("permission:".$this->data['permission']."-list", ['only' => ['index']]);
@@ -49,13 +47,7 @@ class RoleController extends Controller
      */
     public function index(Request $request)
     {
-        $this->data['datatable'] = Role::orderBy('id','DESC')->get();
-        foreach ($this->data['datatable'] as $key => $value) {
-            @$this->data['datatable'][$key]->rolePermissions = Permission::join("role_has_permissions","role_has_permissions.permission_id","=","permissions.id")
-                ->where("role_has_permissions.role_id",$value->id)
-                ->orderBy('menu_name', 'ASC')
-                ->get();
-        }
+        $this->data['datatable'] = Menus::get();
         return view($this->data['route'].'.index', $this->data);
     }
 
@@ -68,7 +60,6 @@ class RoleController extends Controller
     public function create()
     {
         $this->data['subtitle'] = 'Create Data';
-        $this->data['list_permission'] = Permission::orderBy('menu_name', 'ASC')->get();
         return view('components.create', $this->data);
     }
 
@@ -81,17 +72,15 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|unique:roles,name',
-            // 'permission' => 'required',
+            'name' => 'required',
         ]);
 
-        $role = Role::create([
+        $query = Menus::create([
             'name' => $request->input('name'), 
-            'desc' => $request->input('desc')
+            'desc' => $request->input('desc'),
         ]);
-        $role->syncPermissions($request->input('permission'));
 
-        if($role){
+        if($query){
             return response()->json([
                     'status' => true,
                     '_token' => csrf_token(),
@@ -117,12 +106,7 @@ class RoleController extends Controller
     public function edit($id = null)
     {
         $this->data['subtitle'] = 'Edit Data';
-        $this->data['data_row'] = Role::find($id);
-        $this->data['list_permission'] = Permission::orderBy('menu_name', 'ASC')->get();
-        $this->data['rolePermissions'] = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
-            ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
-            ->all();
-
+        $this->data['data_row'] = Menus::find($id);
         return view('components.edit', $this->data);
     }
 
@@ -137,24 +121,14 @@ class RoleController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            // 'permission' => 'required',
         ]);
 
-        $role = Role::find($id);
-        
-        if($role->name != $request->input('name')){
-            $this->validate($request, [
-                'name' => 'required|unique:roles,name',
-            ]);
-        }
+        $query = Menus::find($id);
+        $query->name = $request->input('name');
+        $query->desc = $request->input('desc');
+        $query->save();
 
-        $role->name = $request->input('name');
-        $role->desc = $request->input('desc');
-        $role->save();
-
-        $role->syncPermissions($request->input('permission'));
-
-        if($role){
+        if($query){
             return response()->json([
                     'status' => true,
                     '_token' => csrf_token(),
@@ -178,8 +152,8 @@ class RoleController extends Controller
      */
     public function destroy($id = null)
     {
-        $role = DB::table("roles")->where('id',$id)->delete();
-         if($role){
+        $query = Menus::where('id',$id)->delete();
+         if($query){
             return response()->json([
                     'status' => true,
                     '_token' => csrf_token(),

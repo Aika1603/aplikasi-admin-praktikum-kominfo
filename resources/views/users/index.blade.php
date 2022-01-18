@@ -22,8 +22,9 @@
                         <th>Name</th>
                         <th>Username</th>
                         <th>Phone Number</th>
-                        <th>Is Suspend</th>
+                        <th>Status</th>
                         <th>Email</th>
+                        <th>Roles</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -34,8 +35,15 @@
                             <td>{{ $row->name }}</td>
                             <td>{{ $row->username }}</td>
                             <td>{{ $row->phone_number }}</td>
-                            <td><?= $row->is_suspend == '1' ? '<span class="badge bg-danger">Yes</span>' : '<span class="badge bg-success">No</span>' ;?></td>
+                            <td><?= $row->is_suspend == '1' ? '<span class="badge bg-danger">Suspend</span>' : '<span class="badge bg-success">Active</span>' ;?></td>
                             <td>{{ $row->email }}</td>
+                            <td>
+                                @if(!empty($row->getRoleNames()))
+                                    @foreach($row->getRoleNames() as $v)
+                                    <label class="badge badge-success">{{ $v }}</label>
+                                    @endforeach
+                                @endif
+                            </td>
                             <td class=''>
                                 <div class="list-icons">
                                     <div class="dropdown">

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Permission;
 use DB;
 use App\Menus;
+use App\Action;
 
 class PermissionController extends Controller
 {
@@ -31,8 +32,8 @@ class PermissionController extends Controller
                         'subsubmenu'        => '',
                         'icon_subsubmenu'   => '',
                         'route'             => 'permissions',
-                        'permission'        => 'permission',
-                        'icon-primary'      => '',
+                        'permission'        => 'permissions',
+                        'icon_primary'      => '',
                         'no'                => 1
                       ];
         $this->middleware("permission:".$this->data['permission']."-list", ['only' => ['index']]);
@@ -48,7 +49,7 @@ class PermissionController extends Controller
      */
     public function index(Request $request)
     {
-        $this->data['datatable'] = Permission::orderBy('menu_id','ASC')->get();
+        $this->data['datatable'] = Permission::select('permissions.*', 'menus.name as menu_name')->join('menus', 'menus.id', '=', 'permissions.menu_id')->orderBy('menu_id','ASC')->get();
         return view($this->data['route'].'.index', $this->data);
     }
 
@@ -62,6 +63,7 @@ class PermissionController extends Controller
     {
         $this->data['subtitle'] = 'Create Data';
         $this->data['menus'] = Menus::orderBy('name', 'ASC')->get();
+        $this->data['actions'] = Action::get();
         return view('components.create', $this->data);
     }
 
@@ -76,14 +78,13 @@ class PermissionController extends Controller
         $this->validate($request, [
             'name' => 'required|unique:permissions,name',
             'menu_id' => 'required',
+            'action_id' => 'required',
         ]);
-
-        $menu = Menus::find($request->input('menu_id'));
 
         $query = Permission::create([
             'name' => $request->input('name'), 
             'menu_id' => $request->input('menu_id'),
-            'menu_name' => $menu->name
+            'action_id' => $request->input('action_id'),
         ]);
 
         if($query){
@@ -114,6 +115,7 @@ class PermissionController extends Controller
         $this->data['subtitle'] = 'Edit Data';
         $this->data['data_row'] = Permission::find($id);
         $this->data['menus'] = Menus::orderBy('name', 'ASC')->get();
+        $this->data['actions'] = Action::get();
         return view('components.edit', $this->data);
     }
 
@@ -128,10 +130,9 @@ class PermissionController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'menu_id' => 'required'
+            'menu_id' => 'required',
+            'action_id' => 'required',
         ]);
-
-        $menu = Menus::find($request->input('menu_id'));
 
         $query = Permission::find($id);
         if($query->name != $request->input('name')){
@@ -141,7 +142,7 @@ class PermissionController extends Controller
         }
         $query->name = $request->input('name');
         $query->menu_id = $request->input('menu_id');
-        $query->menu_name  = $menu->name;
+        $query->action_id = $request->input('action_id');
         $query->save();
 
         if($query){

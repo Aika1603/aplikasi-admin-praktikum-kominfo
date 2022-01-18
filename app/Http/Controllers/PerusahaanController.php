@@ -30,8 +30,8 @@ class PerusahaanController extends Controller
                         'subsubmenu'        => '',
                         'icon_subsubmenu'   => '',
                         'route'             => 'perusahaans',
-                        'permission'        => 'perusahaan',
-                        'icon-primary'      => '',
+                        'permission'        => 'perusahaans',
+                        'icon_primary'      => '',
                         'no'                => 1
                       ];
         $this->middleware("permission:".$this->data['permission']."-list", ['only' => ['index']]);

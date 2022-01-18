@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\User;
+use App\Action;
 use App\Menus;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -17,49 +18,89 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
+        Action::create(['name' => 'list', 'desc' => '']);
+        Action::create(['name' => 'create', 'desc' => '']);
+        Action::create(['name' => 'edit', 'desc' => '']);
+        Action::create(['name' => 'delete', 'desc' => '']);
+
         $menu = Menus::create(['name' => 'Roles List']);
         $permissions = [
-           'role-list',
-           'role-create',
-           'role-edit',
-           'role-delete',
+           'roles-list',
+           'roles-create',
+           'roles-edit',
+           'roles-delete',
         ];
+        $i = 1;
         foreach ($permissions as $permission) {
-             Permission::create(['name' => $permission, 'menu_id' => $menu->id, 'menu_name' => $menu->name]);
+             Permission::create(['name' => $permission, 'menu_id' => $menu->id, 'action_id' => $i]);
+             $i++;
         }
 
         $menu = Menus::create(['name' => 'Users List']);
         $permissions = [
-           'user-list',
-           'user-create',
-           'user-edit',
-           'user-delete',
+           'users-list',
+           'users-create',
+           'users-edit',
+           'users-delete',
         ];
+        $i = 1;
         foreach ($permissions as $permission) {
-             Permission::create(['name' => $permission, 'menu_id' => $menu->id, 'menu_name' => $menu->name]);
+             Permission::create(['name' => $permission, 'menu_id' => $menu->id, 'action_id' => $i]);
+             $i++;
         }
 
         $menu = Menus::create(['name' => 'Permissions']);
         $permissions = [
-           'permission-list',
-           'permission-create',
-           'permission-edit',
-           'permission-delete',
+           'permissions-list',
+           'permissions-create',
+           'permissions-edit',
+           'permissions-delete',
         ];
+        $i = 1;
         foreach ($permissions as $permission) {
-             Permission::create(['name' => $permission, 'menu_id' => $menu->id, 'menu_name' => $menu->name]);
+             Permission::create(['name' => $permission, 'menu_id' => $menu->id, 'action_id' => $i]);
+             $i++;
         }
 
+        $menu = Menus::create(['name' => 'Menus']);
+        $datas = [
+           'menus-list',
+           'menus-create',
+           'menus-edit',
+           'menus-delete',
+        ];
+        $i = 1;
+        foreach ($datas as $row) {
+             Permission::create(['name' => $row, 'menu_id' => $menu->id, 'action_id' => $i]);
+             $i++;
+        }
+
+        $menu = Menus::create(['name' => 'Actions']);
+        $datas = [
+           'actions-list',
+           'actions-create',
+           'actions-edit',
+           'actions-delete',
+        ];
+        $i = 1;
+        foreach ($datas as $row) {
+             Permission::create(['name' => $row, 'menu_id' => $menu->id, 'action_id' => $i]);
+             $i++;
+        }
+        
         $menu = Menus::create(['name' => 'Perusahaan']);
         $datas = [
-           'perusahaan-list',
-           'perusahaan-create',
-           'perusahaan-edit',
-           'perusahaan-delete',
+           'perusahaans-list',
+           'perusahaans-create',
+           'perusahaans-edit',
+           'perusahaans-delete',
         ];
+        $i = 1;
         foreach ($datas as $row) {
-             Permission::create(['name' => $row, 'menu_id' => $menu->id, 'menu_name' => $menu->name]);
+             Permission::create(['name' => $row, 'menu_id' => $menu->id, 'action_id' => $i]);
+             $i++;
         }
+
 
         $user = User::create([
             'name' => 'Administrator',
