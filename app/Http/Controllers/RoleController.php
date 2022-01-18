@@ -82,7 +82,7 @@ class RoleController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|unique:roles,name',
-            'permission' => 'required',
+            // 'permission' => 'required',
         ]);
 
         $role = Role::create([
@@ -137,7 +137,7 @@ class RoleController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'permission' => 'required',
+            // 'permission' => 'required',
         ]);
 
         $role = Role::find($id);
