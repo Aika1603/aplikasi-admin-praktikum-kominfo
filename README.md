@@ -1,3 +1,7 @@
+## Example Account
+
+- username : admin
+- password : 123123123
 ## Built with
 
 - Laravel 8
@@ -8,8 +12,8 @@
 - composer install
 - npm install (optional)
 - php artisan key:generate
-- import database **db_jajap** to server
 - setup .env
+- php artisan migrate:fresh --seed
 
 ## Postman documentation link
 
