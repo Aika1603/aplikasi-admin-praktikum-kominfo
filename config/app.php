@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Wifi Location'),
 
     'theme' => env('APP_THEME', 'teal'),
 

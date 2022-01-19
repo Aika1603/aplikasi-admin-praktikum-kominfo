@@ -9,9 +9,14 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label class="font-weight-semibold col-md-2 col-form-label">Description </label>
-                <div class="col-md-10">
-                    <textarea type="text" class="form-control" id="desc" name="desc" placeholder="Enter description" rows="4">{{ @$data_row->desc }}</textarea>
+                <label class="font-weight-semibold col-md-2 col-form-label">Kecamatan  <span class="text-danger">*</span></label>
+                <div class="col-md-10 pb-2">
+                    <select type="text" class="form-control select-search-kecamatan" id="kecamatan_id" name="kecamatan_id" placeholder="Enter"  required >
+                        <option value="">Choose One</option>
+                        @foreach($kecamatans as $kecamatan)
+                            <option value="{{ $kecamatan->id }}" {{ $kecamatan->id == @$data_row->kecamatan_id ? 'selected' : ''}} >{{ $kecamatan->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
 
@@ -24,3 +29,18 @@
         </div>
     </div>
 </form>
+
+<script>
+    $( document ).ready(function() {
+        var $select = $('.select-search-kecamatan').select2({
+            allowClear: true,
+            escapeMarkup: function (markup) { return markup; },
+            placeholder: "Choose One",
+            language: {
+                noResults: function () {
+                    return `<a href="{{ route('kecamatans.create') }}"><i class='icon-plus2'></i> Tambah data baru</a>`;
+                }
+            }
+        });
+    })
+</script>

@@ -62,6 +62,9 @@
 	<script src="{{ asset('assets/js/app.js') }}"></script>
 	<script src="{{ asset('global_assets/js/demo_pages/form_select2.js') }}"></script>
 
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSvn067-Klfl6R6u3okF_tv5cJkZbv8yM"
+			defer></script>
     <style>
         .fc-event-time, .fc-event-title {
         padding: 0 1px;

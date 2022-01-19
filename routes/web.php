@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 Auth::routes([
-  'register' => true,
-  'reset' => true,
+  // 'register' => true,
+  // 'reset' => true,
   'verify' => true,
 ]);
 
@@ -49,8 +49,18 @@ Route::group(['middleware' => ['verified']], function() {
     Route::get('/menus/delete/{id?}', 'MenuController@destroy')->name('menus.delete');
     Route::post('/menus/update/{id?}', 'MenuController@update')->name('menus.update_process');
 
-    Route::resource('perusahaans', PerusahaanController::class);
-    Route::get('/perusahaans/delete/{id?}', 'PerusahaanController@destroy')->name('perusahaans.delete');
-    Route::post('/perusahaans/update/{id?}', 'PerusahaanController@update')->name('perusahaans.update_process');
+    Route::resource('kecamatans', KecamatanController::class);
+    Route::get('/kecamatans/delete/{id?}', 'KecamatanController@destroy')->name('kecamatans.delete');
+    Route::post('/kecamatans/update/{id?}', 'KecamatanController@update')->name('kecamatans.update_process');
+
+    Route::resource('desas', DesaController::class);
+    Route::get('/desas/delete/{id?}', 'DesaController@destroy')->name('desas.delete');
+    Route::get('/desas/search_by_kecamatan/{id?}', 'DesaController@search_by_kecamatan')->name('desas.search_by_kecamatan');
+    Route::post('/desas/update/{id?}', 'DesaController@update')->name('desas.update_process');
+
+    Route::resource('wifi_locations', WifiLocationController::class);
+    Route::get('/wifi_locations/delete/{id?}', 'WifiLocationController@destroy')->name('wifi_locations.delete');
+    Route::get('/wifi_locations/detail/{id?}', 'WifiLocationController@detail')->name('wifi_locations.detail');
+    Route::post('/wifi_locations/update/{id?}', 'WifiLocationController@update')->name('wifi_locations.update_process');
 
 });

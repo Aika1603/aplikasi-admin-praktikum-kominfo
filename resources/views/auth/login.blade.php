@@ -3,7 +3,7 @@
 @section('content')
 <form method="POST" action="{{ route('login') }}" class="login-form form-validate-jquery">
 	<div class="card mb-0">
-		<div class="card-body mb-3">
+		<div class="card-body mb-0">
             @csrf
 			<div class="text-center mb-3">
 				<img id="img-bg" src="{{ asset('images/icon-app.png') }}" style="max-height:150px;max-width:150px;" class="animation-medium animated fadeIn  " >
@@ -44,18 +44,6 @@
                 </div>
 
                 <input type="submit" class="btn  bg-{{ config('app.theme') }} btn-block  " value="Sign in">
-			</div>
-			<div class="text-left  ">
-				<a id="tips-tool" href="#petunjuk" class="text-default animated fadeIn animation-fast animation-delay-slow" data-popup="popover" data-placement="top" title="Belum Punya Akun?" data-trigger="hover" data-content="Silahkan lakukan Pendaftaran Akun Baru"><i class="icon-help"></i> Petunjuk</a>
-				<br/><a class="text-dark animated fadeIn animation-fast animation-delay-slow" href="{{ route('register') }}">Create new account</a>
-			</div>
-			<div class="text-right  " style="margin-top:-40px;">
-                @if (Route::has('password.request'))
-                        <a class="text-default animated fadeIn animation-fast animation-delay-slow" href="{{ route('password.request') }}">
-                            {{ __('Forgot Your Password?') }}
-                        </a>
-                    @endif
-				<!-- <br/><a class="text-dark animated fadeIn animation-fast animation-delay-slow" href="">Back to Landing</a> -->
 			</div>
 		</div>
 	</div>

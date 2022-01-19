@@ -18,9 +18,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//waktu tidak cukup :(
-//api belum dibuat basic token
-Route::get('/truck/{page?}', 'ApiController@get_truck');
-Route::get('/corporation', 'ApiController@get_corporation');
-Route::get('/location', 'ApiController@get_location');
-Route::get('/power_unit_type', 'ApiController@get_power_unit_type');
+Route::get('/wifi', 'WifiLocationController@get_index');
+Route::get('/wifi/detail/{id}', 'WifiLocationController@get_index');
+Route::get('/wifi/search', 'WifiLocationController@get_search');

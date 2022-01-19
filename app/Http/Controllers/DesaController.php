@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
-use App\Perusahaan;
+use App\Desa;
+use App\Kecamatan;
 
-class PerusahaanController extends Controller
+class DesaController extends Controller
 {
     private $data = [];
 
@@ -19,18 +20,18 @@ class PerusahaanController extends Controller
     function __construct()
     {
         $this->data = [
-                        'title'             => 'Perusahaan',
+                        'title'             => 'Desa',
                         'subtitle'          => '',
                         'menu'              => 'Master Data',
                         'link_menu'         => '',
                         'icon_menu'         => 'icon-database',
-                        'submenu'           => 'Perusahaan',
+                        'submenu'           => 'Desa',
                         'link_submenu'      => '',
                         'icon_submenu'      => '',
                         'subsubmenu'        => '',
                         'icon_subsubmenu'   => '',
-                        'route'             => 'perusahaans',
-                        'permission'        => 'perusahaans',
+                        'route'             => 'desas',
+                        'permission'        => 'desas',
                         'icon_primary'      => '',
                         'no'                => 1
                       ];
@@ -47,7 +48,7 @@ class PerusahaanController extends Controller
      */
     public function index(Request $request)
     {
-        $this->data['datatable'] = Perusahaan::get();
+        $this->data['datatable'] = Desa::get();
         return view($this->data['route'].'.index', $this->data);
     }
 
@@ -60,6 +61,7 @@ class PerusahaanController extends Controller
     public function create()
     {
         $this->data['subtitle'] = 'Create Data';
+        $this->data['kecamatans'] = Kecamatan::get();
         return view('components.create', $this->data);
     }
 
@@ -73,11 +75,12 @@ class PerusahaanController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
+            'kecamatan_id' => 'required'
         ]);
 
-        $query = Perusahaan::create([
+        $query = Desa::create([
             'name' => $request->input('name'), 
-            'desc' => $request->input('desc'),
+            'kecamatan_id' => $request->input('kecamatan_id'), 
         ]);
 
         if($query){
@@ -106,7 +109,8 @@ class PerusahaanController extends Controller
     public function edit($id = null)
     {
         $this->data['subtitle'] = 'Edit Data';
-        $this->data['data_row'] = Perusahaan::find($id);
+        $this->data['kecamatans'] = Kecamatan::get();
+        $this->data['data_row'] = Desa::find($id);
         return view('components.edit', $this->data);
     }
 
@@ -121,11 +125,12 @@ class PerusahaanController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
+            'kecamatan_id' => 'required'
         ]);
 
-        $query = Perusahaan::find($id);
+        $query = Desa::find($id);
         $query->name = $request->input('name');
-        $query->desc = $request->input('desc');
+        $query->kecamatan_id = $request->input('kecamatan_id');
         $query->save();
 
         if($query){
@@ -144,6 +149,7 @@ class PerusahaanController extends Controller
                 ]);
         }
     }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -152,7 +158,7 @@ class PerusahaanController extends Controller
      */
     public function destroy($id = null)
     {
-        $query = Perusahaan::where('id',$id)->delete();
+        $query = Desa::where('id',$id)->delete();
          if($query){
             return response()->json([
                     'status' => true,
@@ -167,6 +173,20 @@ class PerusahaanController extends Controller
                     'message' => 'Delete data fail!',
                     'return_url' => '#'
                 ]);
+        }
+    }
+
+    /**
+     * Display a one of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search_by_kecamatan(Request $request, $id = null)
+    {
+        $data  = Desa::where('kecamatan_id', $id)->get();
+        echo "<option value=''>Choose One</option>";
+        foreach ($data as $key => $value) {
+            echo "<option value='$value->id'>$value->name</option>";
         }
     }
 }

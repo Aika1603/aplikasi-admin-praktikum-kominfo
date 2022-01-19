@@ -87,13 +87,13 @@ class UsersTableSeeder extends Seeder
              Permission::create(['name' => $row, 'menu_id' => $menu->id, 'action_id' => $i]);
              $i++;
         }
-        
-        $menu = Menus::create(['name' => 'Perusahaan']);
+
+        $menu = Menus::create(['name' => 'Kecamatan']);
         $datas = [
-           'perusahaans-list',
-           'perusahaans-create',
-           'perusahaans-edit',
-           'perusahaans-delete',
+           'kecamatans-list',
+           'kecamatans-create',
+           'kecamatans-edit',
+           'kecamatans-delete',
         ];
         $i = 1;
         foreach ($datas as $row) {
@@ -101,6 +101,31 @@ class UsersTableSeeder extends Seeder
              $i++;
         }
 
+        $menu = Menus::create(['name' => 'Desa']);
+        $datas = [
+           'desas-list',
+           'desas-create',
+           'desas-edit',
+           'desas-delete',
+        ];
+        $i = 1;
+        foreach ($datas as $row) {
+             Permission::create(['name' => $row, 'menu_id' => $menu->id, 'action_id' => $i]);
+             $i++;
+        }
+
+        $menu = Menus::create(['name' => 'Wifi Locations']);
+        $datas = [
+           'wifi locations-list',
+           'wifi locations-create',
+           'wifi locations-edit',
+           'wifi locations-delete',
+        ];
+        $i = 1;
+        foreach ($datas as $row) {
+             Permission::create(['name' => $row, 'menu_id' => $menu->id, 'action_id' => $i]);
+             $i++;
+        }
 
         $user = User::create([
             'name' => 'Administrator',
