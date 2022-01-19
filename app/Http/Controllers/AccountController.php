@@ -35,10 +35,6 @@ class AccountController extends Controller
                         'icon_primary'      => '',
                         'no'                => 1
                       ];
-        // $this->middleware("permission:".$this->data['permission']."-list", ['only' => ['index']]);
-        // $this->middleware("permission:".$this->data['permission']."-create", ['only' => ['create','store']]);
-        // $this->middleware("permission:".$this->data['permission']."-edit", ['only' => ['edit','update']]);
-        // $this->middleware("permission:".$this->data['permission']."-delete", ['only' => ['destroy']]);
     }
 
     public function show(Request $request)

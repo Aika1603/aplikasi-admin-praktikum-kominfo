@@ -1,3 +1,8 @@
+## Built with
+
+- Laravel 8
+- Laravel permission by spatie
+- Limitless Bootstrap 4
 ## How to Install
 
 - composer install

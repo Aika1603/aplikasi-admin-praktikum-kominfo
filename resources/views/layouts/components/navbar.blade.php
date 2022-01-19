@@ -1,6 +1,6 @@
 <!-- Main navbar -->
 	<div class="navbar navbar-expand-md navbar-dark bg-{{ config('app.theme') }}-600">
-		<a href="{{ url('/') }}" class="text-light" style="margin-top:10px;font-size:20px;margin-right:180px;">
+		<a href="{{ url('/') }}" class="text-light" style="margin-top:10px;font-size:20px;margin-right:100px;">
 			{{ config('app.name') }}
 		</a>
 

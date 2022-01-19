@@ -34,10 +34,6 @@ class NotificationController extends Controller
                         'icon_primary'      => 'icon-bell2',
                         'no'                => 1
                       ];
-        // $this->middleware("permission:".$this->data['permission']."-list", ['only' => ['index']]);
-        // $this->middleware("permission:".$this->data['permission']."-create", ['only' => ['create','store']]);
-        // $this->middleware("permission:".$this->data['permission']."-edit", ['only' => ['edit','update']]);
-        // $this->middleware("permission:".$this->data['permission']."-delete", ['only' => ['destroy']]);
     }
 
     public function index(Request $request)

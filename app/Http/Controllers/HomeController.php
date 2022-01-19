@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+use App\Kecamatan;
+use App\Desa;
+use App\WifiLocation;
+
 class HomeController extends Controller
 {
     private $data = [];
@@ -28,14 +32,15 @@ class HomeController extends Controller
                         'icon_primary'      => 'icon-home',
                         'no'                => 1
                       ];
-        // $this->middleware("permission:".$this->data['permission']."-list", ['only' => ['index']]);
-        // $this->middleware("permission:".$this->data['permission']."-create", ['only' => ['create','store']]);
-        // $this->middleware("permission:".$this->data['permission']."-edit", ['only' => ['edit','update']]);
-        // $this->middleware("permission:".$this->data['permission']."-delete", ['only' => ['destroy']]);
     }
 
     public function index(Request $request)
     {
+        $this->data['kecamatan'] = Kecamatan::count();
+        $this->data['desa'] = Desa::count();
+        $this->data['all_wifi'] = WifiLocation::count();
+        $this->data['active_wifi'] = WifiLocation::where('is_active', '1')->count();
+        
         return view('home', $this->data);
     }
 }

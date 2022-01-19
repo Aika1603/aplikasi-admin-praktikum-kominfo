@@ -61,7 +61,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 mb-4">
             <label for="" class=""><b class="label">Titik Koordinat Lokasi </b> <span class="text-muted"><br/>Geser dan pilih lokasi. <br/>Pastikan marker merah berpindah sesuai lokasi yang Anda pilih </span></label>
             <div id="show-map" style="height:80%;min-height:300px;">
             </div>
