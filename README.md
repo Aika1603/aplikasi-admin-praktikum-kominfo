@@ -1,7 +1,11 @@
 ## How to Install
 
 - composer install
-- setup .env
+- npm install (optional)
 - php artisan key:generate
-- php artisan migrate:fresh --seed
-- php artisan server
+- import database **db_jajap** to server
+- setup .env
+
+## Postman documentation link
+
+link : https://documenter.getpostman.com/view/4945874/UVXnGZi5
